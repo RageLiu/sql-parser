@@ -42,3 +42,17 @@ TEST(SQLParserTokenizeStringifyTest) {
   ASSERT(query == cache[token_string]);
   ASSERT(&query != &cache[token_string]);
 }
+
+TEST(SQLParserTokenizeLeakRegressionTest) {
+
+  const std::string query = "'string_1' 'string_2' 'string_3';";
+  std::vector<int16_t> tokens;
+
+  ASSERT(SQLParser::tokenize(query, &tokens));
+
+  ASSERT_EQ(tokens.size(), 4);
+  ASSERT_EQ(tokens[0], SQL_STRING);
+  ASSERT_EQ(tokens[1], SQL_STRING);
+  ASSERT_EQ(tokens[2], SQL_STRING);
+  ASSERT_EQ(tokens[3], ';');
+}
