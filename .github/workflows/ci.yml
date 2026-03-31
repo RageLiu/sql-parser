@@ -46,6 +46,19 @@ jobs:
             cxx: clang++
             os: macos-latest
 
+          - name: clang-sanitizer-ubuntu
+            cc: clang-19
+            cxx: clang++-19
+            os: ubuntu-latest
+            container: ubuntu:24.04
+            build_options: "CXXFLAGS='-fsanitize=address,undefined -g' LDFLAGS='-fsanitize=address,undefined'"
+
+          - name: clang-sanitizer-macOS
+            cc: clang
+            cxx: clang++
+            os: macos-latest
+            build_options: "CXXFLAGS='-fsanitize=address,undefined -g' LDFLAGS='-fsanitize=address,undefined'"  
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
