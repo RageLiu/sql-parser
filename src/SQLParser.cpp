@@ -59,16 +59,11 @@ bool SQLParser::tokenize(const std::string& sql, std::vector<int16_t>* tokens) {
   int16_t token = hsql_lex(&yylval, &yylloc, scanner);
   while (token != 0) {
     tokens->push_back(token);
-  
-    if (token == SQL_IDENTIFIER || token == SQL_STRING) {
-      free(yylval.sval);
-      yylval.sval = nullptr;
-
-    }
-
     token = hsql_lex(&yylval, &yylloc, scanner);
 
-
+    if (token == SQL_IDENTIFIER || token == SQL_STRING) {
+      free(yylval.sval);
+    }
   }
 
   hsql__delete_buffer(state, scanner);
