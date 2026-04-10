@@ -36,7 +36,9 @@ GMAKE = make mode=$(mode)
 NAME := sqlparser
 PARSER_CPP = $(SRCPARSER)/bison_parser.cpp  $(SRCPARSER)/flex_lexer.cpp
 PARSER_H   = $(SRCPARSER)/bison_parser.h    $(SRCPARSER)/flex_lexer.h
-LIB_CFLAGS = -std=c++17 $(OPT_FLAG)
+LIB_CFLAGS = -std=c++17 $(OPT_FLAG) $(CXXFLAGS)
+LIB_LFLAGS = $(LDFLAGS)
+
 
 relaxed_build ?= "off"
 ifeq ($(relaxed_build), on)
@@ -54,12 +56,12 @@ static ?= no
 ifeq ($(static), yes)
 	LIB_BUILD  = lib$(NAME).a
 	LIBLINKER  = $(AR)
-	LIB_LFLAGS = rs
+	LIB_LFLAGS += rs
 else
 	LIB_BUILD   = lib$(NAME).so
 	LIBLINKER   = $(CXX)
 	LIB_CFLAGS += -fPIC
-	LIB_LFLAGS  = -shared -o
+	LIB_LFLAGS += -shared -o
 endif
 LIB_CPP = $(sort $(shell find $(SRC) -name '*.cpp' -not -path "$(SRCPARSER)/*") $(PARSER_CPP))
 LIB_H   = $(shell find $(SRC) -name '*.h' -not -path "$(SRCPARSER)/*") $(PARSER_H)

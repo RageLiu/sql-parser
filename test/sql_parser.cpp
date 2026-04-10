@@ -43,6 +43,7 @@ TEST(SQLParserTokenizeStringifyTest) {
   ASSERT(&query != &cache[token_string]);
 }
 
+// Regression test for the memory leak reported in issue #261.
 TEST(SQLParserTokenizeLeakRegressionTest) {
 
   const std::string query = "'string_1' 'string_2' 'string_3';";
