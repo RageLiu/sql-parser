@@ -94,7 +94,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           apt-get update
-          apt-get install --no-install-recommends -y bison flex ${CC} ${CXX} make valgrind
+          apt-get install --no-install-recommends -y bison flex ${CC} ${CXX} make valgrind ${{ matrix.name == 'clang-sanitizer-ubuntu' && 'libclang-rt-19-dev' || '' }}
           echo "BISON=bison" >> $GITHUB_ENV
           echo "FLEX=flex" >> $GITHUB_ENV
 
